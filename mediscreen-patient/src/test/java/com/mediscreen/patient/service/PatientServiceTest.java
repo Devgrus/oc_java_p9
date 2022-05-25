@@ -8,6 +8,9 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
@@ -39,6 +42,60 @@ public class PatientServiceTest {
 
         //then
         assertThat(patientService.addPatient(patient1)).isEqualTo(patient1);
+    }
+
+    @Test
+    public void findByIdTest() {
+        //given
+        Patient patient1 = Patient.builder()
+                .id(1)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        //when
+        when(patientRepository.findById(patient1.getId())).thenReturn(Optional.of(patient1));
+
+        //then
+        assertThat(patientService.findById(patient1.getId()).get()).isEqualTo(patient1);
+    }
+
+    @Test
+    public void findAllByFamilyTest() {
+        //given
+        Patient patient1 = Patient.builder()
+                .id(1)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        Patient patient2 = Patient.builder()
+                .id(2)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        List<Patient> patientList = new ArrayList<>();
+        patientList.add(patient1);
+        patientList.add(patient2);
+
+        //when
+        when(patientRepository.findAllByFamily(patient1.getFamily())).thenReturn(patientList);
+
+        //then
+        assertThat(patientService.getPatientsByFamily(patient1.getFamily()).size()).isEqualTo(patientList.size());
     }
 
 }

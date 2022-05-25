@@ -2,6 +2,7 @@ package com.mediscreen.patient.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mediscreen.patient.domain.Patient;
 import com.mediscreen.patient.dto.PatientDto;
 import com.mediscreen.patient.service.PatientService;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -49,7 +52,7 @@ public class PatientControllerTest {
         mockMvc.perform(post("/patient/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto1)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -116,6 +119,41 @@ public class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto1)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getPatientsByFamilyTest() throws Exception {
+        //given
+        Patient patient1 = Patient.builder()
+                .id(1)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        Patient patient2 = Patient.builder()
+                .id(2)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        List<Patient> patientList = new ArrayList<>();
+        patientList.add(patient1);
+        patientList.add(patient2);
+
+        //when
+        when(patientService.getPatientsByFamily(patient1.getFamily())).thenReturn(patientList);
+
+        //then
+        mockMvc.perform(get("/patient?family=FamilyTest"))
+                .andExpect(status().isOk());
     }
 
 }

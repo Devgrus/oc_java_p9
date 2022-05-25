@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class PatientDto {
+
+    private Integer id;
     @NotBlank(message = "Family name is mandatory")
     private String family;
 

@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -29,8 +31,9 @@ public class PatientController {
     @PostMapping("/add")
     public ResponseEntity<PatientDto> addPatient(@Valid @RequestBody PatientDto dto) {
         Patient patient = patientService.addPatient(dto.toEntity());
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.CREATED)
                 .body(PatientDto.builder()
+                        .id(patient.getId())
                         .family(patient.getFamily())
                         .given(patient.getGiven())
                         .sex(patient.getSex())
@@ -38,5 +41,25 @@ public class PatientController {
                         .address(patient.getAddress())
                         .phone(patient.getPhone())
                         .build());
+    }
+
+    /**
+     * Get patients by family name
+     * @param family family name
+     * @return patient list
+     */
+    @GetMapping
+    public ResponseEntity<List<PatientDto>> getPatientsByFamily(@RequestParam String family) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(patientService.getPatientsByFamily(family).stream().map(patient ->
+                        PatientDto.builder()
+                                .id(patient.getId())
+                                .family(patient.getFamily())
+                                .given(patient.getGiven())
+                                .sex(patient.getSex())
+                                .dob(patient.getDob())
+                                .address(patient.getAddress())
+                                .phone(patient.getPhone())
+                                .build()).collect(Collectors.toList()));
     }
 }
