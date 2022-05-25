@@ -17,8 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PatientController.class)
@@ -186,6 +185,31 @@ public class PatientControllerTest {
         //then
         mockMvc.perform(get("/patient/" + 1))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updatePatientTest() throws Exception {
+        //given
+        PatientDto dto1 = PatientDto.builder()
+                .id(1)
+                .family("Family")
+                .given("Given")
+                .dob(LocalDate.of(1992,5,12))
+                .sex("F")
+                .address("1 address")
+                .phone("111-111-1111")
+                .build();
+
+        //when
+        when(patientService.updatePatient(dto1.getId(), dto1)).thenReturn(dto1.toEntity());
+
+        //then
+        mockMvc.perform(put("/patient/update/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto1)))
+                .andExpect(status().isOk());
+
+
     }
 
 }

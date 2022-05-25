@@ -1,6 +1,7 @@
 package com.mediscreen.patient.service;
 
 import com.mediscreen.patient.domain.Patient;
+import com.mediscreen.patient.dto.PatientDto;
 import com.mediscreen.patient.repository.PatientRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -126,6 +127,37 @@ public class PatientServiceTest {
 
         //then
         assertThatThrownBy(() -> patientService.getPatientById(1)).hasMessage("USER NOT FOUND");
+    }
+
+    @Test
+    public void updatePatientTest() throws Exception {
+        //given
+        Patient patient1 = Patient.builder()
+                .id(1)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        PatientDto dto1 = PatientDto.builder()
+                .id(1)
+                .family("Family")
+                .given("Given")
+                .dob(LocalDate.of(1992,5,12))
+                .sex("F")
+                .address("1 address")
+                .phone("111-111-1111")
+                .build();
+
+        //when
+        when(patientRepository.findById(dto1.getId())).thenReturn(Optional.of(patient1));
+
+        //then
+        assertThat(patientService.updatePatient(dto1.getId(), dto1).getFamily()).isEqualTo("Family");
+
     }
 
 }

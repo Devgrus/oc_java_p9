@@ -1,9 +1,11 @@
 package com.mediscreen.patient.service;
 
 import com.mediscreen.patient.domain.Patient;
+import com.mediscreen.patient.dto.PatientDto;
 import com.mediscreen.patient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +49,19 @@ public class PatientService {
     public Patient getPatientById(int id) {
         Optional<Patient> patient = findById(id);
         return findById(id).orElseThrow(() -> new IllegalArgumentException("USER NOT FOUND"));
+    }
+
+    @Transactional
+    public Patient updatePatient(int id, PatientDto dto) {
+        Patient patient = getPatientById(id);
+        patient.setFamily(dto.getFamily());
+        patient.setGiven(dto.getGiven());
+        patient.setDob(dto.getDob());
+        patient.setSex(dto.getSex());
+        patient.setAddress(dto.getAddress());
+        patient.setPhone(dto.getPhone());
+
+        return patient;
     }
 
 }

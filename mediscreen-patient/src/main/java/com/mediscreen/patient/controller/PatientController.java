@@ -82,4 +82,20 @@ public class PatientController {
                         .phone(patient.getPhone())
                         .build());
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PatientDto> updatePatient(@PathVariable int id, @Valid @RequestBody PatientDto dto) {
+        Patient patient = patientService.updatePatient(id, dto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(PatientDto.builder()
+                        .id(patient.getId())
+                        .family(patient.getFamily())
+                        .given(patient.getGiven())
+                        .sex(patient.getSex())
+                        .dob(patient.getDob())
+                        .address(patient.getAddress())
+                        .phone(patient.getPhone())
+                        .build());
+    }
+
 }
