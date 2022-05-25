@@ -16,7 +16,7 @@ import java.util.Map;
 public class ExceptionControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidatedException(MethodArgumentNotValidException e) {
+    public ResponseEntity<Map<String, String>> handleValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException", e);
         Map<String, String> errors = new HashMap<>();
         e.getBindingResult().getAllErrors().forEach(error -> {
@@ -25,5 +25,11 @@ public class ExceptionControllerAdvice {
             errors.put(filedName, errMessage);
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("IllegalArgumentException", e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }

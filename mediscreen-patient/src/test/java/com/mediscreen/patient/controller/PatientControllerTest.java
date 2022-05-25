@@ -156,4 +156,36 @@ public class PatientControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void getPatientByIdTest() throws Exception {
+        //given
+        Patient patient = Patient.builder()
+                .id(1)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        //when
+        when(patientService.getPatientById(patient.getId())).thenReturn(patient);
+
+        //then
+        mockMvc.perform(get("/patient/" + patient.getId()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getPatientByIdTestWithPatientNotExist() throws Exception {
+        //given
+        //when
+        when(patientService.getPatientById(1)).thenThrow(new IllegalArgumentException("USER NOT FOUND"));
+
+        //then
+        mockMvc.perform(get("/patient/" + 1))
+                .andExpect(status().isBadRequest());
+    }
+
 }

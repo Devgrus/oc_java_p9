@@ -25,7 +25,7 @@ public class PatientServiceTest {
     PatientService patientService;
 
     @Test
-    public void addPatientTest() {
+    public void addPatientTest() throws Exception {
         //given
         Patient patient1 = Patient.builder()
                 .id(1)
@@ -45,7 +45,7 @@ public class PatientServiceTest {
     }
 
     @Test
-    public void findByIdTest() {
+    public void findByIdTest() throws Exception {
         //given
         Patient patient1 = Patient.builder()
                 .id(1)
@@ -65,7 +65,7 @@ public class PatientServiceTest {
     }
 
     @Test
-    public void findAllByFamilyTest() {
+    public void findAllByFamilyTest() throws Exception {
         //given
         Patient patient1 = Patient.builder()
                 .id(1)
@@ -96,6 +96,36 @@ public class PatientServiceTest {
 
         //then
         assertThat(patientService.getPatientsByFamily(patient1.getFamily()).size()).isEqualTo(patientList.size());
+    }
+
+    @Test
+    public void getPatientByIdTest() throws Exception {
+        //given
+        Patient patient1 = Patient.builder()
+                .id(1)
+                .family("FamilyTest")
+                .given("GivenTest")
+                .dob(LocalDate.of(1990,5,12))
+                .address("Address Test")
+                .sex("M")
+                .phone("111-111-1111")
+                .build();
+
+        //when
+        when(patientRepository.findById(patient1.getId())).thenReturn(Optional.of(patient1));
+
+        //then
+        assertThat(patientService.getPatientById(patient1.getId())).isEqualTo(patient1);
+    }
+    @Test
+    public void getPatientByIdTestPatientNotFound() throws Exception {
+        //given
+
+        //when
+        when(patientRepository.findById(1)).thenReturn(Optional.empty());
+
+        //then
+        assertThatThrownBy(() -> patientService.getPatientById(1)).hasMessage("USER NOT FOUND");
     }
 
 }

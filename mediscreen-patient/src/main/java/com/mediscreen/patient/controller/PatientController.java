@@ -48,8 +48,8 @@ public class PatientController {
      * @param family family name
      * @return patient list
      */
-    @GetMapping
-    public ResponseEntity<List<PatientDto>> getPatientsByFamily(@RequestParam String family) {
+    @GetMapping()
+    public ResponseEntity<List<PatientDto>> getPatientsByFamily(@RequestParam("family") String family) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(patientService.getPatientsByFamily(family).stream().map(patient ->
                         PatientDto.builder()
@@ -61,5 +61,25 @@ public class PatientController {
                                 .address(patient.getAddress())
                                 .phone(patient.getPhone())
                                 .build()).collect(Collectors.toList()));
+    }
+
+    /**
+     * Get a patient by userId
+     * @param id userId
+     * @return patient information
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientDto> getPatientById(@PathVariable int id) {
+        Patient patient = patientService.getPatientById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(PatientDto.builder()
+                        .id(patient.getId())
+                        .family(patient.getFamily())
+                        .given(patient.getGiven())
+                        .sex(patient.getSex())
+                        .dob(patient.getDob())
+                        .address(patient.getAddress())
+                        .phone(patient.getPhone())
+                        .build());
     }
 }

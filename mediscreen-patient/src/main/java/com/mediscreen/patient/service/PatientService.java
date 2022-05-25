@@ -44,4 +44,9 @@ public class PatientService {
         return patientRepository.findAllByFamily(family);
     }
 
+    public Patient getPatientById(int id) {
+        Optional<Patient> patient = findById(id);
+        return findById(id).orElseThrow(() -> new IllegalArgumentException("USER NOT FOUND"));
+    }
+
 }
