@@ -83,6 +83,12 @@ public class PatientController {
                         .build());
     }
 
+    /**
+     * Update a patient
+     * @param id patient id
+     * @param dto patient informaiton
+     * @return patient information
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<PatientDto> updatePatient(@PathVariable int id, @Valid @RequestBody PatientDto dto) {
         Patient patient = patientService.updatePatient(id, dto);

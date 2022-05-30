@@ -1,0 +1,11 @@
+CREATE TABLE patient (
+  id tinyint(4) NOT NULL AUTO_INCREMENT,
+  family VARCHAR(255) NOT NULL,
+  given VARCHAR(255) NOT NULL,
+  dob DATE,
+  sex VARCHAR(50) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL,
+
+  PRIMARY KEY (id)
+);

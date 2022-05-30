@@ -46,11 +46,22 @@ public class PatientService {
         return patientRepository.findAllByFamily(family);
     }
 
+    /**
+     * Get a patient by patient id
+     * @param id patient id
+     * @return patient data
+     */
     public Patient getPatientById(int id) {
         Optional<Patient> patient = findById(id);
         return findById(id).orElseThrow(() -> new IllegalArgumentException("USER NOT FOUND"));
     }
 
+    /**
+     * Update a patient
+     * @param id patient id
+     * @param dto patient information
+     * @return patient data
+     */
     @Transactional
     public Patient updatePatient(int id, PatientDto dto) {
         Patient patient = getPatientById(id);

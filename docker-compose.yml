@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    platform: linux/arm64/v8 # For arm mac
+    container_name: mysql
+    image: mysql:8-oracle
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_DATABASE=mediscreen
+      - MYSQL_ROOT_PASSWORD=ocr
+      - MYSQL_USER=mds
+      - MYSQL_PASSWORD=ocp9
+    ports:
+      - "3307:3306"
+    volumes:
+      - "./scripts/script.sql:/docker-entrypoint-initdb.d/1.sql"
+    restart: always
+
+  mediscreen-patient:
+    build:
+      context: ./mediscreen-patient
+    ports:
+      - "8081:8081"
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    restart: always
