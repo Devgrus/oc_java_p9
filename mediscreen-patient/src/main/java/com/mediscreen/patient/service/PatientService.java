@@ -75,4 +75,13 @@ public class PatientService {
         return patient;
     }
 
+    /**
+     * Delete a patient
+     * @param id patient id
+     */
+    public void deletePatient(int id) {
+        Patient patient = getPatientById(id);
+        patientRepository.delete(patient);
+    }
+
 }

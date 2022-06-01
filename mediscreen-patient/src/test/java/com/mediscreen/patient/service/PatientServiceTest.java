@@ -160,4 +160,15 @@ public class PatientServiceTest {
 
     }
 
+    @Test
+    public void deletePatientByIdTestPatientNotFound() throws Exception {
+        //given
+
+        //when
+        when(patientRepository.findById(1)).thenReturn(Optional.empty());
+
+        //then
+        assertThatThrownBy(() -> patientService.deletePatient(1)).hasMessage("USER NOT FOUND");
+    }
+
 }

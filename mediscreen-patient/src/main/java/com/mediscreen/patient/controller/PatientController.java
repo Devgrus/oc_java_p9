@@ -89,7 +89,7 @@ public class PatientController {
      * @param dto patient informaiton
      * @return patient information
      */
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PatientDto> updatePatient(@PathVariable int id, @Valid @RequestBody PatientDto dto) {
         Patient patient = patientService.updatePatient(id, dto);
         return ResponseEntity.status(HttpStatus.OK)
@@ -102,6 +102,17 @@ public class PatientController {
                         .address(patient.getAddress())
                         .phone(patient.getPhone())
                         .build());
+    }
+
+    /**
+     * Delete a patient
+     * @param id patient id
+     * @return String message (delete user id)
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePatient(@PathVariable int id) {
+        patientService.deletePatient(id);
+        return ResponseEntity.noContent().header("Content-Length", "0").build();
     }
 
 }

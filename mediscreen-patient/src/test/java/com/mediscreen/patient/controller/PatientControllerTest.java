@@ -204,11 +204,23 @@ public class PatientControllerTest {
         when(patientService.updatePatient(dto1.getId(), dto1)).thenReturn(dto1.toEntity());
 
         //then
-        mockMvc.perform(put("/patient/update/1")
+        mockMvc.perform(put("/patient/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto1)))
                 .andExpect(status().isOk());
 
+
+    }
+
+    @Test
+    public void deletePatientTestWithPatientNotExist() throws Exception {
+        //given
+        //when
+        doThrow(new IllegalArgumentException("USER NOT FOUND")).when(patientService).deletePatient(1);
+
+        //then
+        mockMvc.perform(delete("/patient/" + 1))
+                .andExpect(status().isBadRequest());
 
     }
 
