@@ -17,12 +17,14 @@ public class PatientDto {
 
     private Integer id;
     @NotBlank(message = "Family name is mandatory")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ ]+$", message = "Special characters all not allowed")
     private String family;
 
     @NotBlank(message = "Given name is mandatory")
+    @Pattern(regexp = "^[a-zA-ZÀ-ÖØ-öø-ÿ ]+$", message = "Special characters all not allowed")
     private String given;
 
-    @NotNull
+    @NotNull(message = "Date of birth is mandatory")
     @PastOrPresent(message = "Only past or present date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
@@ -39,8 +41,8 @@ public class PatientDto {
 
     public Patient toEntity() {
         return Patient.builder()
-                .family(family)
-                .given(given)
+                .family(family == null ? null : family.toLowerCase())
+                .given(given == null ? null : given.toLowerCase())
                 .dob(dob)
                 .sex(sex)
                 .address(address)
