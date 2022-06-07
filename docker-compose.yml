@@ -26,3 +26,11 @@ services:
     depends_on:
       - mysql
     restart: always
+  
+  mediscreen-front:
+    build:
+      context: ./mediscreen-front
+    ports:
+      - "8080:3000"
+    restart: always
+    stdin_open: true
