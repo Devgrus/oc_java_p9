@@ -73,4 +73,15 @@ public class HistoryController {
                         .lastModifiedDate(history.getLastModifiedDate())
                         .build());
     }
+
+    /**
+     * Delete a history
+     * @param id history id
+     * @return no content
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteHistory(@PathVariable String id) {
+        historyService.deleteHistory(id);
+        return ResponseEntity.noContent().header("Content-Length", "0").build();
+    }
 }

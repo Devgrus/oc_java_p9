@@ -111,4 +111,16 @@ public class HistoryServiceTest {
         assertThatThrownBy(() -> historyService.updateHistory(history2)).hasMessage("HISTORY NOT FOUND");
     }
 
+    @Test
+    public void deleteHistoryTestNotFound() {
+        //given
+        String historyId = "asdfasdf";
+
+        //when
+        when(historyRepository.findById(historyId)).thenReturn(Optional.empty());
+
+        //then
+        assertThatThrownBy(() -> historyService.deleteHistory(historyId)).hasMessage("HISTORY NOT FOUND");
+    }
+
 }

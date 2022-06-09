@@ -149,4 +149,17 @@ public class HistoryControllerTest {
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void deletePatientTestWithPatientNotExist() throws Exception {
+        //given
+        String historyId = "asdfasdf";
+        //when
+        doThrow(new IllegalArgumentException("USER NOT FOUND")).when(historyService).deleteHistory(historyId);
+
+        //then
+        mockMvc.perform(delete("/patHistory/" + historyId))
+                .andExpect(status().isBadRequest());
+
+    }
 }

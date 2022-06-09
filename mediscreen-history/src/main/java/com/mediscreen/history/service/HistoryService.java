@@ -43,10 +43,24 @@ public class HistoryService {
         return historyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("HISTORY NOT FOUND"));
     }
 
+    /**
+     * Update history
+     * @param history history information
+     * @return history information
+     */
     @Transactional
     public History updateHistory(History history) {
+        System.out.println(history.getId());
         History result = findById(history.getId());
         result.setNote(history.getNote());
         return result;
+    }
+
+    /**
+     * Delete a history
+     * @param id history id
+     */
+    public void deleteHistory(String id) {
+        historyRepository.delete(findById(id));
     }
 }
