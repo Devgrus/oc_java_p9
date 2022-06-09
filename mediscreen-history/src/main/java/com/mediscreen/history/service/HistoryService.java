@@ -4,6 +4,8 @@ import com.mediscreen.history.domain.History;
 import com.mediscreen.history.repository.HistoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HistoryService {
 
@@ -20,5 +22,14 @@ public class HistoryService {
      */
     public History addHistory(History history) {
         return historyRepository.save(history);
+    }
+
+    /**
+     * Get all histories of patient
+     * @param patId patient id
+     * @return all histories
+     */
+    public List<History> getHistories(int patId) {
+        return historyRepository.findAllByPatId(patId);
     }
 }

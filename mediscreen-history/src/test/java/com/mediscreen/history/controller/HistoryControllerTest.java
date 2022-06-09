@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -74,5 +76,36 @@ public class HistoryControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getHistoriesTest() throws Exception {
+        //given
+        int patId = 1;
+
+        History history1 = History.builder()
+                .id("asdfasdf")
+                .patId(1)
+                .note("NOTE NOTE NOTE")
+                .createdDate(LocalDate.of(2020, 4, 20))
+                .build();
+
+        History history2 = History.builder()
+                .id("qwerqwer")
+                .patId(1)
+                .note("NOTE NOTE NOTE")
+                .createdDate(LocalDate.of(2020, 6, 20))
+                .build();
+
+        List<History> histories = new ArrayList<>();
+        histories.add(history1);
+        histories.add(history2);
+
+        //when
+        when(historyService.getHistories(patId)).thenReturn(histories);
+
+        //then
+        mockMvc.perform(get("/patHistory?patId=" + patId))
+                .andExpect(status().isOk());
     }
 }

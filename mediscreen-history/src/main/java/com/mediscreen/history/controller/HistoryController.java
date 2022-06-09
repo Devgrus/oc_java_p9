@@ -5,12 +5,11 @@ import com.mediscreen.history.dto.HistoryDto;
 import com.mediscreen.history.service.HistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/patHistory")
@@ -37,5 +36,23 @@ public class HistoryController {
                         .note(history.getNote())
                         .createdDate(history.getCreatedDate())
                         .build());
+    }
+
+    /**
+     * Get all histories of a patient
+     * @param patId patient id
+     * @return all histories
+     */
+    @GetMapping()
+    public ResponseEntity<List<HistoryDto>> getHistories(@RequestParam int patId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(historyService.getHistories(patId).stream()
+                        .map(history -> HistoryDto.builder()
+                                .id(history.getId())
+                                .patId(history.getPatId())
+                                .note(history.getNote())
+                                .createdDate(history.getCreatedDate())
+                                .lastModifiedDate(history.getLastModifiedDate())
+                                .build()).collect(Collectors.toList()));
     }
 }
