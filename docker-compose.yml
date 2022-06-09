@@ -16,6 +16,17 @@ services:
       - "./scripts/script.sql:/docker-entrypoint-initdb.d/1.sql"
     restart: always
 
+  mongodb:
+    container_name: mongodb
+    image: mongo:5
+    environment:
+      - MONGO_INITDB_DATABASE=mediscreen
+      - MONGO_INITDB_USERNAME=mds
+      - MONGO_INITDB_PASSWORD=ocp9
+    ports:
+      - "27017:27017"
+    restart: always
+
   mediscreen-patient:
     build:
       context: ./mediscreen-patient
