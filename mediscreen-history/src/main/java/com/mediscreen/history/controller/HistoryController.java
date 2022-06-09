@@ -55,4 +55,22 @@ public class HistoryController {
                                 .lastModifiedDate(history.getLastModifiedDate())
                                 .build()).collect(Collectors.toList()));
     }
+
+    /**
+     * Update a history
+     * @param dto history information
+     * @return history information
+     */
+    @PutMapping("/update")
+    public ResponseEntity<HistoryDto> updateHistory(@Valid @RequestBody HistoryDto dto) {
+        History history = historyService.updateHistory(dto.toEntity());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(HistoryDto.builder()
+                        .id(history.getId())
+                        .patId(history.getPatId())
+                        .note(history.getNote())
+                        .createdDate(history.getCreatedDate())
+                        .lastModifiedDate(history.getLastModifiedDate())
+                        .build());
+    }
 }

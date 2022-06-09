@@ -1,5 +1,0 @@
-2022-06-09 09:06:08.234  INFO 93763 --- [main] CONTROLLER_LOGGER                        : URI: /patHistory/add | Request: POST | Response: /patHistory/add
-2022-06-09 10:28:49.664  INFO 94198 --- [main] CONTROLLER_LOGGER                        : URI: /patHistory/add | Request: POST | Response: /patHistory/add
-2022-06-09 12:06:16.626  INFO 94781 --- [main] CONTROLLER_LOGGER                        : URI: /patHistory/1 | Request: GET | Response: /patHistory/1
-2022-06-09 12:07:23.468  INFO 94785 --- [http-nio-8082-exec-2] CONTROLLER_LOGGER                        : URI: /patHistory/1 | Request: GET | Response: /patHistory/1
-2022-06-09 12:09:06.403  INFO 94819 --- [http-nio-8082-exec-2] CONTROLLER_LOGGER                        : URI: /patHistory | Request: GET | Response: /patHistory

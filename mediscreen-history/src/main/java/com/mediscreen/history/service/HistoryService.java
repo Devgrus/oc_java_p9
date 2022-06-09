@@ -3,6 +3,7 @@ package com.mediscreen.history.service;
 import com.mediscreen.history.domain.History;
 import com.mediscreen.history.repository.HistoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,5 +32,21 @@ public class HistoryService {
      */
     public List<History> getHistories(int patId) {
         return historyRepository.findAllByPatId(patId);
+    }
+
+    /**
+     * Get a history by id
+     * @param id history id
+     * @return history
+     */
+    public History findById(String id) {
+        return historyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("HISTORY NOT FOUND"));
+    }
+
+    @Transactional
+    public History updateHistory(History history) {
+        History result = findById(history.getId());
+        result.setNote(history.getNote());
+        return result;
     }
 }

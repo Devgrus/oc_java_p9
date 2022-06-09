@@ -108,4 +108,45 @@ public class HistoryControllerTest {
         mockMvc.perform(get("/patHistory?patId=" + patId))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void updateHistoryTest() throws Exception {
+        //given
+
+        HistoryDto dto = HistoryDto.builder()
+                .id("asdfasdf")
+                .patId(1)
+                .note("NOTE NOTE")
+                .createdDate(LocalDate.of(2020, 4, 20))
+                .build();
+
+        //when
+        when(historyService.updateHistory(dto.toEntity())).thenReturn(dto.toEntity());
+
+        //then
+        mockMvc.perform(put("/patHistory/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateHistoryTestHistoryNotFound() throws Exception {
+        //given
+        HistoryDto dto = HistoryDto.builder()
+                .id("asdfasdf")
+                .patId(1)
+                .note("NOTE NOTE")
+                .createdDate(LocalDate.of(2020, 4, 20))
+                .build();
+
+        //when
+        when(historyService.updateHistory(dto.toEntity())).thenThrow(new IllegalArgumentException("HISTORY NOT FOUND"));
+
+        //then
+        mockMvc.perform(put("/patHistory/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest());
+    }
 }
