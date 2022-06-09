@@ -124,7 +124,7 @@ public class HistoryControllerTest {
         when(historyService.updateHistory(dto.toEntity())).thenReturn(dto.toEntity());
 
         //then
-        mockMvc.perform(put("/patHistory/update")
+        mockMvc.perform(put("/patHistory")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk());
@@ -144,7 +144,7 @@ public class HistoryControllerTest {
         when(historyService.updateHistory(dto.toEntity())).thenThrow(new IllegalArgumentException("HISTORY NOT FOUND"));
 
         //then
-        mockMvc.perform(put("/patHistory/update")
+        mockMvc.perform(put("/patHistory")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());

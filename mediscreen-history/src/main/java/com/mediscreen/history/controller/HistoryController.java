@@ -61,7 +61,7 @@ public class HistoryController {
      * @param dto history information
      * @return history information
      */
-    @PutMapping("/update")
+    @PutMapping()
     public ResponseEntity<HistoryDto> updateHistory(@Valid @RequestBody HistoryDto dto) {
         History history = historyService.updateHistory(dto.toEntity());
         return ResponseEntity.status(HttpStatus.OK)

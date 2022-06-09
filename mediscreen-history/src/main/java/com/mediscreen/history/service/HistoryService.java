@@ -50,7 +50,6 @@ public class HistoryService {
      */
     @Transactional
     public History updateHistory(History history) {
-        System.out.println(history.getId());
         History result = findById(history.getId());
         result.setNote(history.getNote());
         return result;

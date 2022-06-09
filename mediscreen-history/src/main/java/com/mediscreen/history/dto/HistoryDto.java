@@ -21,6 +21,7 @@ public class HistoryDto {
 
     public History toEntity() {
         return History.builder()
+                .id(id)
                 .patId(patId)
                 .note(note)
                 .build();
