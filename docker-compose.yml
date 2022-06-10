@@ -37,6 +37,17 @@ services:
     depends_on:
       - mysql
     restart: always
+
+  mediscreen-history:
+    build:
+      context: ./mediscreen-history
+    ports:
+      - "8082:8082"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    restart: always
   
   mediscreen-front:
     build:
