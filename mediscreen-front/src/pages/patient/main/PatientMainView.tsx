@@ -24,8 +24,12 @@ export type PatientError = {
     phone?: string;
 }
 
-const PatientMain = () => {
-    const [searchField, setSearchField] = useState('');
+type patientProps = {
+    searchField : string;
+    setSearchField: (value: string)=>void;
+}
+
+const PatientMain = ({searchField, setSearchField} : patientProps) => {
     const [patientList, setPatientList] = useState<Patient[]>([]);
     const [patientListUpdateDetector, setPatientListUpdateDetector] = useState(false);
     const [show, setShow] = useState(false);

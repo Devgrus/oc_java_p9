@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Patient, PatientError} from "../../pages/patient/main/PatientMainView";
 import PatientUpdate from "../../pages/patient/update/PatientUpdateView";
+import {Link} from "react-router-dom";
 
 type PatientListProps = {
     patients: Patient[];
@@ -37,7 +38,8 @@ const PatientList = ({ patients, deleteButtonHandler, patientListUpdateDetector,
                 <th scope="col">DoB</th>
                 <th scope="col">Address</th>
                 <th scope="col">Phone</th>
-                <th scope="col"></th>
+                <th scope="col">History</th>
+                <th scope="col">Operation</th>
             </tr>
             </thead>
             <tbody>
@@ -51,6 +53,9 @@ const PatientList = ({ patients, deleteButtonHandler, patientListUpdateDetector,
                         <td>{patient.dob}</td>
                         <td>{patient.address}</td>
                         <td>{patient.phone}</td>
+                        <td>
+                            <Link className="btn btn-link p-0 text-black text-decoration-none" to={`/history/${patient.id}`}>Detail</Link>
+                        </td>
                         <td>
                             <button className="btn btn-link p-0 text-black text-decoration-none" onClick={(e) => handleShow(e, patient)}>EDIT |&nbsp;</button>
                             <button type="button"
