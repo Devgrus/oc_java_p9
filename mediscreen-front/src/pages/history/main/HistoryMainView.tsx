@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
-import HistoryList from "../../../components/historyList/historyList.component";
+import HistoryList from "../../../components/history/historyList/historyList.component";
 import Header from "../../../components/base/header/header.component";
 
 export type History = {
     id: string;
     patId: string;
     note: string;
-    createdDate: Date;
-    lastModifiedDate: Date;
+    createdDate: string;
+    lastModifiedDate: string;
 }
 
-const HistoryMain = () => {
+const HistoryMainView = () => {
     const params = useParams();
     const [historyList, setHistoryList] = useState<History[]>([]);
 
@@ -21,7 +21,7 @@ const HistoryMain = () => {
     }, []);
 
     const getHistoryList = (): void => {
-        console.log("Get patient list");
+        console.log("Get history list");
         fetch("http://localhost:8082/patHistory?patId=" + params.id, {
             method: "GET",
         })
@@ -52,4 +52,4 @@ const HistoryMain = () => {
     )
 }
 
-export default HistoryMain;
+export default HistoryMainView;

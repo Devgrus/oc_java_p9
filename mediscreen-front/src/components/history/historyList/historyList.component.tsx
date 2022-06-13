@@ -1,5 +1,5 @@
 import React from 'react';
-import {History} from "../../pages/history/main/HistoryMainView";
+import {History} from "../../../pages/history/main/HistoryMainView";
 import {Link} from "react-router-dom";
 
 type historyListProps = {
@@ -24,8 +24,8 @@ const HistoryList = ({historyList, deleteButtonHandler} : historyListProps) => {
                 return (
                     <tr key={history.id}>
                         <td>{index + 1}</td>
-                        <td>{history.createdDate.toString()}</td>
-                        <td>{history.lastModifiedDate.toString()}</td>
+                        <td>{history.createdDate}</td>
+                        <td>{history.lastModifiedDate}</td>
                         <td>
                             <Link className="btn btn-link p-0 text-black text-decoration-none" to={`/history/read/${history.id}`}>READ |&nbsp;</Link>
                             <Link className="btn btn-link p-0 text-black text-decoration-none" to={`/history/edit/${history.id}`}>EDIT |&nbsp;</Link>

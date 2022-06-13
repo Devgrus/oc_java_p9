@@ -37,8 +37,7 @@ const PatientUpdate = ({show, handleClose, patient, patientListUpdateDetector, s
         if(fetchUpdate.ok) {
             setPatientListUpdateDetector(!patientListUpdateDetector);
             handleClose();
-        }
-        if(fetchUpdate.status != 200) {
+        } else {
             const result = await fetchUpdate.json();
             setErrorMsg(result);
         }

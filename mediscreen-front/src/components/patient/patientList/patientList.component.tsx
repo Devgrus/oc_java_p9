@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Patient, PatientError} from "../../pages/patient/main/PatientMainView";
-import PatientUpdate from "../../pages/patient/update/PatientUpdateView";
+import {Patient, PatientError} from "../../../pages/patient/main/PatientMainView";
+import PatientUpdate from "../../../pages/patient/update/PatientUpdateView";
 import {Link} from "react-router-dom";
 
 type PatientListProps = {
