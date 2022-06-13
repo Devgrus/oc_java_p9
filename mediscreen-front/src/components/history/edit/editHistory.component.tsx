@@ -61,8 +61,8 @@ const EditHistory = () => {
         <>
             <Form onSubmit={updatePatientHandler}>
                 <Form.Group className="mb-3">
-                    <Form.Control name="id" value={history.id} hidden />
-                    <Form.Control name="patId" value={history.patId} hidden />
+                    <Form.Control name="id" defaultValue={history.id} hidden />
+                    <Form.Control name="patId" defaultValue={history.patId} hidden />
                     <Form.Label>Note</Form.Label>
                     <Form.Control name="note" as="textarea" rows={10} defaultValue={history.note} />
                 </Form.Group>
