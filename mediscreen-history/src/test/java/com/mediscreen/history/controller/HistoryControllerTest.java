@@ -110,6 +110,42 @@ public class HistoryControllerTest {
     }
 
     @Test
+    public void getHistoryByIdTest() throws Exception {
+        //given
+        History history1 = History.builder()
+                .id("asdfasdf")
+                .patId(1)
+                .note("NOTE NOTE NOTE")
+                .createdDate(LocalDate.of(2020, 4, 20))
+                .build();
+
+        //when
+        when(historyService.findById(history1.getId())).thenReturn(history1);
+
+        //then
+        mockMvc.perform(get("/patHistory?id=" + history1.getId()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getHistoryByIdTestWithHistoryNotFound() throws Exception {
+        //given
+        History history1 = History.builder()
+                .id("asdfasdf")
+                .patId(1)
+                .note("NOTE NOTE NOTE")
+                .createdDate(LocalDate.of(2020, 4, 20))
+                .build();
+
+        //when
+        when(historyService.findById(history1.getId())).thenThrow(new IllegalArgumentException("HISTORY NOT FOUND"));
+
+        //then
+        mockMvc.perform(get("/patHistory?id=" + history1.getId()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void updateHistoryTest() throws Exception {
         //given
 
