@@ -43,7 +43,7 @@ public class HistoryController {
      * @param patId patient id
      * @return all histories
      */
-    @GetMapping()
+    @GetMapping(params = "patId")
     public ResponseEntity<List<HistoryDto>> getHistories(@RequestParam int patId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(historyService.getHistories(patId).stream()
@@ -54,6 +54,24 @@ public class HistoryController {
                                 .createdDate(history.getCreatedDate())
                                 .lastModifiedDate(history.getLastModifiedDate())
                                 .build()).collect(Collectors.toList()));
+    }
+
+    /**
+     * Get a history by history id
+     * @param id history id
+     * @return history information
+     */
+    @GetMapping(params = "id")
+    public ResponseEntity<HistoryDto> getHistoryById(@RequestParam String id) {
+        History history = historyService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(HistoryDto.builder()
+                        .id(history.getId())
+                        .patId(history.getPatId())
+                        .note(history.getNote())
+                        .createdDate(history.getCreatedDate())
+                        .lastModifiedDate(history.getLastModifiedDate())
+                        .build());
     }
 
     /**
