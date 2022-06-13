@@ -52,6 +52,7 @@ public class HistoryService {
     public History updateHistory(History history) {
         History result = findById(history.getId());
         result.setNote(history.getNote());
+        historyRepository.save(result);
         return result;
     }
 
