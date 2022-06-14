@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Patient, PatientError} from "../../../pages/patient/main/PatientMainView";
 import PatientUpdate from "../../../pages/patient/update/PatientUpdateView";
+import './patientList.component.css';
 import {Link} from "react-router-dom";
 
 type PatientListProps = {
@@ -47,12 +48,12 @@ const PatientList = ({ patients, deleteButtonHandler, patientListUpdateDetector,
                 return (
                     <tr key={patient.id}>
                         <td>{patient.id}</td>
-                        <td>{patient.family}</td>
-                        <td>{patient.given}</td>
+                        <td className="text-truncate">{patient.family}</td>
+                        <td className="text-truncate">{patient.given}</td>
                         <td>{patient.sex}</td>
                         <td>{patient.dob}</td>
-                        <td>{patient.address}</td>
-                        <td>{patient.phone}</td>
+                        <td className="text-truncate">{patient.address}</td>
+                        <td className="text-truncate">{patient.phone}</td>
                         <td>
                             <Link className="btn btn-link p-0 text-black text-decoration-none" to={`/history/${patient.id}`}>Detail</Link>
                         </td>
