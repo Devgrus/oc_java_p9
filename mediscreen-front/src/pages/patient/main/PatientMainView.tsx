@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 
 import Header from '../../../components/base/header/header.component';
-import SearchBox from '../../../components/searchBox/searchBox.component';
-import PatientList from '../../../components/patientList/patientList.component';
+import SearchBox from '../../../components/patient/searchBox/searchBox.component';
+import PatientList from '../../../components/patient/patientList/patientList.component';
 import PatientAdd from "../add/PatientAddView";
 
 export type Patient = {
@@ -24,8 +24,12 @@ export type PatientError = {
     phone?: string;
 }
 
-const PatientMain = () => {
-    const [searchField, setSearchField] = useState('');
+type patientProps = {
+    searchField : string;
+    setSearchField: (value: string)=>void;
+}
+
+const PatientMain = ({searchField, setSearchField} : patientProps) => {
     const [patientList, setPatientList] = useState<Patient[]>([]);
     const [patientListUpdateDetector, setPatientListUpdateDetector] = useState(false);
     const [show, setShow] = useState(false);
