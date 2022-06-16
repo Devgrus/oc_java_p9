@@ -23,6 +23,8 @@ services:
       - MONGO_INITDB_DATABASE=mediscreen
       - MONGO_INITDB_USERNAME=mds
       - MONGO_INITDB_PASSWORD=ocp9
+    volumes:
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - "27017:27017"
     restart: always
