@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import HistoryList from "../../../components/history/historyList/historyList.component";
 import Header from "../../../components/base/header/header.component";
 
@@ -45,6 +45,7 @@ const HistoryMainView = () => {
     return (
         <>
             <Header />
+            <Link className="btn btn-primary" to={`/history/add`} state={params}>+ Add a new history</Link>
             <div className="container">
                 <HistoryList historyList={historyList} deleteButtonHandler={deleteButtonHandler} />
             </div>
