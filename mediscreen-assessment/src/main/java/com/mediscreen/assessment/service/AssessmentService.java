@@ -39,6 +39,7 @@ public class AssessmentService {
                 .family(patient.getFamily())
                 .given(patient.getGiven())
                 .age(age)
+                .sex(patient.getSex())
                 .diabetesAssessment(getRiskLevel(age, countKeyword(histories), patient.getSex()))
                 .build();
     }

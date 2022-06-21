@@ -56,6 +56,7 @@ public class AssessmentServiceTest {
                 .family(patientDto.getFamily())
                 .given(patientDto.getGiven())
                 .age(Period.between(patientDto.getDob(), LocalDate.now()).getYears())
+                .sex(patientDto.getSex())
                 .diabetesAssessment(RiskLevel.EarlyOnset)
                 .build();
 
@@ -150,6 +151,7 @@ public class AssessmentServiceTest {
                 .family(patientDto.getFamily())
                 .given(patientDto.getGiven())
                 .age(Period.between(patientDto.getDob(), LocalDate.now()).getYears())
+                .sex(patientDto.getSex())
                 .diabetesAssessment(RiskLevel.EarlyOnset)
                 .build();
 

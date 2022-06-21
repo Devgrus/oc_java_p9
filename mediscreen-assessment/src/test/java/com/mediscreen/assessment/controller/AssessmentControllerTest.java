@@ -34,6 +34,7 @@ public class AssessmentControllerTest {
                 .family("ferguson")
                 .given("lucas")
                 .age(51)
+                .sex("M")
                 .diabetesAssessment(RiskLevel.None)
                 .build();
 
@@ -52,6 +53,7 @@ public class AssessmentControllerTest {
                 .family("ferguson")
                 .given("lucas")
                 .age(51)
+                .sex("M")
                 .diabetesAssessment(RiskLevel.None)
                 .build();
 
