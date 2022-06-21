@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/assess")
 public class AssessmentController {
@@ -28,5 +30,16 @@ public class AssessmentController {
     public ResponseEntity<AssessmentDto> getAssessmentById(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(assessmentService.diabetesAssessmentByPatId(id));
+    }
+
+    /**
+     * Get a diabetes assessment by family name
+     * @param family family name
+     * @return assessment list
+     */
+    @GetMapping("/family/{family}")
+    public ResponseEntity<List<AssessmentDto>> getAssessmentByFamily(@PathVariable String family) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(assessmentService.diabetesAssessmentByFamilyName(family.toLowerCase()));
     }
 }

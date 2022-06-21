@@ -118,4 +118,49 @@ public class AssessmentServiceTest {
         //then
         assertThat(assessmentService.countKeyword(historyList)).isEqualTo(8);
     }
+
+    @Test
+    public void assessmentByFamily() {
+        //given
+        List<PatientDto> patients = new ArrayList<>();
+
+        PatientDto patientDto = PatientDto.builder()
+                .id(1)
+                .family("ferguson")
+                .given("lucas")
+                .dob(LocalDate.of(1968,6,22))
+                .sex("M")
+                .address("2 Warren Street")
+                .phone("387-866-1399")
+                .build();
+
+        patients.add(patientDto);
+
+        HistoryDto historyDto = HistoryDto.builder()
+                .id("asfsefhosiefnaosef")
+                .patId(1)
+                .createdDate(LocalDate.now())
+                .lastModifiedDate(LocalDate.now())
+                .note("Anticorps fumeur cholestérol poids vertige Rechute Taille Microalbumine")
+                .build();
+
+        List<AssessmentDto> assessmentList = new ArrayList<>();
+
+        AssessmentDto assessment = AssessmentDto.builder()
+                .family(patientDto.getFamily())
+                .given(patientDto.getGiven())
+                .age(Period.between(patientDto.getDob(), LocalDate.now()).getYears())
+                .diabetesAssessment(RiskLevel.EarlyOnset)
+                .build();
+
+        assessmentList.add(assessment);
+
+        //when
+        when(patientService.getPatientsByFamily(patientDto.getFamily())).thenReturn(Flux.just(patientDto));
+        when(patientService.getPatientById(patientDto.getId())).thenReturn(Mono.just(patientDto));
+        when(historyService.getHistoriesByPatId(patientDto.getId())).thenReturn(Flux.just(historyDto));
+
+        //then
+        assertThat(assessmentService.diabetesAssessmentByFamilyName(patientDto.getFamily())).isEqualTo(assessmentList);
+    }
 }

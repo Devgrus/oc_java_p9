@@ -9,6 +9,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,6 +42,27 @@ public class AssessmentControllerTest {
 
         //then
         mockMvc.perform(get("/assess/id/" + id))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAssessmentByFamily() throws Exception {
+        //given
+        AssessmentDto assessment = AssessmentDto.builder()
+                .family("ferguson")
+                .given("lucas")
+                .age(51)
+                .diabetesAssessment(RiskLevel.None)
+                .build();
+
+        List<AssessmentDto> assessmentList = new ArrayList<>();
+        assessmentList.add(assessment);
+
+        //when
+        when(assessmentService.diabetesAssessmentByFamilyName(assessment.getFamily())).thenReturn(assessmentList);
+
+        //then
+        mockMvc.perform(get("/assess/family/" + assessment.getFamily()))
                 .andExpect(status().isOk());
     }
 }

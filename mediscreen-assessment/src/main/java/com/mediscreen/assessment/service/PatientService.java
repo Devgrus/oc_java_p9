@@ -26,7 +26,7 @@ public class PatientService {
                 .uri("/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new IllegalArgumentException("WRONG ID")))
+                .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new IllegalArgumentException("ID NOT FOUND")))
                 .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new RuntimeException("External API server error")))
                 .bodyToMono(PatientDto.class);
     }
@@ -41,7 +41,7 @@ public class PatientService {
                 .uri(uriBuilder -> uriBuilder.queryParam("family", family).build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new IllegalArgumentException("Family NAME NOT FOUND")))
+                .onStatus(HttpStatus::is4xxClientError, response -> Mono.error(new IllegalArgumentException("FAMILY NAME NOT FOUND")))
                 .onStatus(HttpStatus::is5xxServerError, response -> Mono.error(new RuntimeException("External API server error")))
                 .bodyToFlux(PatientDto.class);
     }

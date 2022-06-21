@@ -12,6 +12,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AssessmentService {
@@ -32,9 +33,6 @@ public class AssessmentService {
         PatientDto patient = patientService.getPatientById(id).block();
         List<HistoryDto> histories = historyService.getHistoriesByPatId(id).collectList().block();
 
-        if(patient != null) throw new IllegalArgumentException("USER NOT FOUND");
-        if(histories != null) return null;
-
         int age = calculateAge(patient.getDob());
 
         return AssessmentDto.builder()
@@ -43,6 +41,18 @@ public class AssessmentService {
                 .age(age)
                 .diabetesAssessment(getRiskLevel(age, countKeyword(histories), patient.getSex()))
                 .build();
+    }
+
+    /**
+     * Assess diabetes by family name
+     * @param family family name
+     * @return assessment list
+     */
+    public List<AssessmentDto> diabetesAssessmentByFamilyName(String family) {
+        List<PatientDto> patients = patientService.getPatientsByFamily(family).collectList().block();
+        return patients.parallelStream()
+                .map(patient -> diabetesAssessmentByPatId(patient.getId()))
+                .collect(Collectors.toList());
     }
 
     /**
