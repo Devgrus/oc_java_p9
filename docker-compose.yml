@@ -50,6 +50,16 @@ services:
     depends_on:
       - mongodb
     restart: always
+
+  mediscreen-assessment:
+    build:
+      context: ./mediscreen-assessment
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mediscreen-patient
+      - mediscreen-history
+    restart: always
   
   mediscreen-front:
     build:

@@ -13,7 +13,7 @@ public class HistoryService {
     private final WebClient webClient;
 
     public HistoryService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8082/patHistory").build();
+        this.webClient = webClientBuilder.baseUrl("http://mediscreen-history:8082/patHistory").build();
     }
 
     /**

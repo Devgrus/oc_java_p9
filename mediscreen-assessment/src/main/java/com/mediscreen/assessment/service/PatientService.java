@@ -13,7 +13,7 @@ public class PatientService {
     private final WebClient webClient;
 
     public PatientService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8081/patient").build();
+        this.webClient = webClientBuilder.baseUrl("http://mediscreen-patient:8081/patient").build();
     }
 
     /**
