@@ -1,6 +1,6 @@
 import {Button, Form, Modal} from "react-bootstrap";
 import React, {useState} from "react";
-import {Patient, PatientError} from "../main/PatientMainView";
+import {Patient, PatientError} from "../../../pages/patient/main/PatientMainView";
 
 type addProps = {
     patientListUpdateDetector: boolean;
@@ -62,7 +62,7 @@ const PatientAdd = ({patientListUpdateDetector, setPatientListUpdateDetector, re
             </Button>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Add Patient</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={addPatientHandler}>
                     <Modal.Body>

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Patient, PatientError} from "../../../pages/patient/main/PatientMainView";
-import PatientUpdate from "../../../pages/patient/update/PatientUpdateView";
+import PatientUpdate from "../update/PatientUpdate.component";
 import './patientList.component.css';
 import {Link} from "react-router-dom";
+import AssessmentRead from "../../assessment/read/AssessmentRead.component";
 
 type PatientListProps = {
     patients: Patient[];
@@ -31,33 +32,35 @@ const PatientList = ({ patients, deleteButtonHandler, patientListUpdateDetector,
     return (
         <table className='patient-list table'>
             <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Family</th>
-                <th scope="col">Given</th>
-                <th scope="col">Sex</th>
-                <th scope="col">DoB</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone</th>
-                <th scope="col">History</th>
-                <th scope="col">Operation</th>
+            <tr className="d-flex">
+                <th scope="col" className="col-1">ID</th>
+                <th scope="col" className="col-2">Name</th>
+                <th scope="col" className="col-1">Sex</th>
+                <th scope="col" className="col-1">DoB</th>
+                <th scope="col" className="col-1">Address</th>
+                <th scope="col" className="col-2">Phone</th>
+                <th scope="col" className="col-1">History</th>
+                <th scope="col" className="col-1">Assessment</th>
+                <th scope="col" className="col-2">Operation</th>
             </tr>
             </thead>
             <tbody>
             {patients.map((patient) => {
                 return (
-                    <tr key={patient.id}>
-                        <td>{patient.id}</td>
-                        <td className="text-truncate">{patient.family}</td>
-                        <td className="text-truncate">{patient.given}</td>
-                        <td>{patient.sex}</td>
-                        <td>{patient.dob}</td>
-                        <td className="text-truncate">{patient.address}</td>
-                        <td className="text-truncate">{patient.phone}</td>
-                        <td>
-                            <Link className="btn btn-link p-0 text-black text-decoration-none" to={`/history/${patient.id}`}>Detail</Link>
+                    <tr key={patient.id} className="d-flex">
+                        <td className="col-1">{patient.id}</td>
+                        <td className="text-truncate col-2">{patient.family} {patient.given}</td>
+                        <td className="col-1">{patient.sex}</td>
+                        <td className="col-1">{patient.dob}</td>
+                        <td className="text-truncate col-1">{patient.address}</td>
+                        <td className="text-truncate col-2">{patient.phone}</td>
+                        <td className="col-1">
+                            <Link className="btn btn-link p-0 text-black text-decoration-none" to={`/history/${patient.id}`}>Show</Link>
                         </td>
-                        <td>
+                        <td className="col-1">
+                            <AssessmentRead id={patient.id} />
+                        </td>
+                        <td className="col-2">
                             <button className="btn btn-link p-0 text-black text-decoration-none" onClick={(e) => handleShow(e, patient)}>EDIT |&nbsp;</button>
                             <button type="button"
                                     className="btn btn-link p-0 text-danger text-decoration-none"

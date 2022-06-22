@@ -3,7 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import Header from '../../../components/base/header/header.component';
 import SearchBox from '../../../components/patient/searchBox/searchBox.component';
 import PatientList from '../../../components/patient/patientList/patientList.component';
-import PatientAdd from "../add/PatientAddView";
+import PatientAdd from "../../../components/patient/add/PatientAdd.component";
 
 export type Patient = {
     id?: string;

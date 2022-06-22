@@ -1,6 +1,6 @@
 import {Button, Form, Modal} from "react-bootstrap";
 import React from "react";
-import {Patient, PatientError} from "../main/PatientMainView";
+import {Patient, PatientError} from "../../../pages/patient/main/PatientMainView";
 
 type updateProps = {
     show: boolean;
@@ -57,7 +57,7 @@ const PatientUpdate = ({show, handleClose, patient, patientListUpdateDetector, s
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Update Patient</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={updatePatientHandler}>
                     <Modal.Body>
