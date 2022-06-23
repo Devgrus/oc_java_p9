@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">patient</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.patient.controller</a> &gt; <span class="el_source">PatientController.java</span></div><h1>PatientController.java</h1><pre class="source lang-java linenums">package com.mediscreen.patient.controller;
+
+import com.mediscreen.patient.domain.Patient;
+import com.mediscreen.patient.dto.PatientDto;
+import com.mediscreen.patient.service.PatientService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
+
+<span class="fc" id="L15">@Slf4j</span>
+@RestController
+@RequestMapping(&quot;/patient&quot;)
+public class PatientController {
+
+    private final PatientService patientService;
+
+<span class="fc" id="L22">    public PatientController(PatientService patientService) {</span>
+<span class="fc" id="L23">        this.patientService = patientService;</span>
+<span class="fc" id="L24">    }</span>
+
+    /**
+     * Add a new patient
+     * @param dto new patient information
+     * @return patient information
+     */
+    @PostMapping(&quot;/add&quot;)
+    public ResponseEntity&lt;PatientDto&gt; addPatient(@Valid @RequestBody PatientDto dto) {
+<span class="fc" id="L33">        Patient patient = patientService.addPatient(dto.toEntity());</span>
+<span class="fc" id="L34">        return ResponseEntity.status(HttpStatus.CREATED)</span>
+<span class="fc" id="L35">                .body(PatientDto.builder()</span>
+<span class="fc" id="L36">                        .id(patient.getId())</span>
+<span class="fc" id="L37">                        .family(patient.getFamily())</span>
+<span class="fc" id="L38">                        .given(patient.getGiven())</span>
+<span class="fc" id="L39">                        .sex(patient.getSex())</span>
+<span class="fc" id="L40">                        .dob(patient.getDob())</span>
+<span class="fc" id="L41">                        .address(patient.getAddress())</span>
+<span class="fc" id="L42">                        .phone(patient.getPhone())</span>
+<span class="fc" id="L43">                        .build());</span>
+    }
+
+    /**
+     * Get patients by family name
+     * @param family family name
+     * @return patient list
+     */
+    @GetMapping()
+    public ResponseEntity&lt;List&lt;PatientDto&gt;&gt; getPatientsByFamily(@RequestParam(&quot;family&quot;) String family) {
+<span class="fc" id="L53">        return ResponseEntity.status(HttpStatus.OK)</span>
+<span class="fc" id="L54">                .body(patientService.getPatientsByFamily(family).stream().map(patient -&gt;</span>
+<span class="fc" id="L55">                        PatientDto.builder()</span>
+<span class="fc" id="L56">                                .id(patient.getId())</span>
+<span class="fc" id="L57">                                .family(patient.getFamily())</span>
+<span class="fc" id="L58">                                .given(patient.getGiven())</span>
+<span class="fc" id="L59">                                .sex(patient.getSex())</span>
+<span class="fc" id="L60">                                .dob(patient.getDob())</span>
+<span class="fc" id="L61">                                .address(patient.getAddress())</span>
+<span class="fc" id="L62">                                .phone(patient.getPhone())</span>
+<span class="fc" id="L63">                                .build()).collect(Collectors.toList()));</span>
+    }
+
+    /**
+     * Get a patient by userId
+     * @param id userId
+     * @return patient information
+     */
+    @GetMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;PatientDto&gt; getPatientById(@PathVariable int id) {
+<span class="fc" id="L73">        Patient patient = patientService.getPatientById(id);</span>
+<span class="fc" id="L74">        return ResponseEntity.status(HttpStatus.OK)</span>
+<span class="fc" id="L75">                .body(PatientDto.builder()</span>
+<span class="fc" id="L76">                        .id(patient.getId())</span>
+<span class="fc" id="L77">                        .family(patient.getFamily())</span>
+<span class="fc" id="L78">                        .given(patient.getGiven())</span>
+<span class="fc" id="L79">                        .sex(patient.getSex())</span>
+<span class="fc" id="L80">                        .dob(patient.getDob())</span>
+<span class="fc" id="L81">                        .address(patient.getAddress())</span>
+<span class="fc" id="L82">                        .phone(patient.getPhone())</span>
+<span class="fc" id="L83">                        .build());</span>
+    }
+
+    /**
+     * Update a patient
+     * @param id patient id
+     * @param dto patient informaiton
+     * @return patient information
+     */
+    @PutMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;PatientDto&gt; updatePatient(@PathVariable int id, @Valid @RequestBody PatientDto dto) {
+<span class="fc" id="L94">        Patient patient = patientService.updatePatient(id, dto);</span>
+<span class="fc" id="L95">        return ResponseEntity.status(HttpStatus.OK)</span>
+<span class="fc" id="L96">                .body(PatientDto.builder()</span>
+<span class="fc" id="L97">                        .id(patient.getId())</span>
+<span class="fc" id="L98">                        .family(patient.getFamily())</span>
+<span class="fc" id="L99">                        .given(patient.getGiven())</span>
+<span class="fc" id="L100">                        .sex(patient.getSex())</span>
+<span class="fc" id="L101">                        .dob(patient.getDob())</span>
+<span class="fc" id="L102">                        .address(patient.getAddress())</span>
+<span class="fc" id="L103">                        .phone(patient.getPhone())</span>
+<span class="fc" id="L104">                        .build());</span>
+    }
+
+    /**
+     * Delete a patient
+     * @param id patient id
+     * @return String message (delete user id)
+     */
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deletePatient(@PathVariable int id) {
+<span class="nc" id="L114">        patientService.deletePatient(id);</span>
+<span class="nc" id="L115">        return ResponseEntity.noContent().header(&quot;Content-Length&quot;, &quot;0&quot;).build();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

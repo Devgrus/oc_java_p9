@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HistoryService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">history</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.history.service</a> &gt; <span class="el_source">HistoryService.java</span></div><h1>HistoryService.java</h1><pre class="source lang-java linenums">package com.mediscreen.history.service;
+
+import com.mediscreen.history.domain.History;
+import com.mediscreen.history.repository.HistoryRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class HistoryService {
+
+    private final HistoryRepository historyRepository;
+
+<span class="fc" id="L15">    public HistoryService(HistoryRepository historyRepository) {</span>
+<span class="fc" id="L16">        this.historyRepository = historyRepository;</span>
+<span class="fc" id="L17">    }</span>
+
+    /**
+     * Add patient history
+     * @param history patient history information
+     * @return patient history information
+     */
+    public History addHistory(History history) {
+<span class="fc" id="L25">        return historyRepository.save(history);</span>
+    }
+
+    /**
+     * Get all histories of patient
+     * @param patId patient id
+     * @return all histories
+     */
+    public List&lt;History&gt; getHistories(int patId) {
+<span class="fc" id="L34">        return historyRepository.findAllByPatId(patId);</span>
+    }
+
+    /**
+     * Get a history by id
+     * @param id history id
+     * @return history
+     */
+    public History findById(String id) {
+<span class="fc" id="L43">        return historyRepository.findById(id).orElseThrow(() -&gt; new IllegalArgumentException(&quot;HISTORY NOT FOUND&quot;));</span>
+    }
+
+    /**
+     * Update history
+     * @param history history information
+     * @return history information
+     */
+    @Transactional
+    public History updateHistory(History history) {
+<span class="fc" id="L53">        History result = findById(history.getId());</span>
+<span class="fc" id="L54">        result.setNote(history.getNote());</span>
+<span class="fc" id="L55">        historyRepository.save(result);</span>
+<span class="fc" id="L56">        return result;</span>
+    }
+
+    /**
+     * Delete a history
+     * @param id history id
+     */
+    public void deleteHistory(String id) {
+<span class="nc" id="L64">        historyRepository.delete(findById(id));</span>
+<span class="nc" id="L65">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

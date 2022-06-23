@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+history,com.mediscreen.history.controller,HistoryController,15,115,0,0,2,38,1,6,1,6
+history,com.mediscreen.history.config,WebConfig,0,38,0,0,0,10,0,3,0,3
+history,com.mediscreen.history.dto,HistoryDto,0,12,0,0,0,5,0,1,0,1
+history,com.mediscreen.history.service,HistoryService,7,46,0,0,2,10,1,6,1,6
+history,com.mediscreen.history.common,LogInterceptor,0,33,0,0,0,4,0,3,0,3
+history,com.mediscreen.history,HistoryApplication,5,3,0,0,2,1,1,1,1,1
+history,com.mediscreen.history.advice,ExceptionControllerAdvice,0,49,0,0,0,12,0,5,0,5

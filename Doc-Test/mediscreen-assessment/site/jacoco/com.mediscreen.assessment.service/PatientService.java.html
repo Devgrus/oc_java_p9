@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PatientService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mediscreen-assessment</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.assessment.service</a> &gt; <span class="el_source">PatientService.java</span></div><h1>PatientService.java</h1><pre class="source lang-java linenums">package com.mediscreen.assessment.service;
+
+import com.mediscreen.assessment.dto.PatientDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.*;
+
+@Service
+public class PatientService {
+
+    private final WebClient webClient;
+
+<span class="fc" id="L15">    public PatientService(WebClient.Builder webClientBuilder) {</span>
+<span class="fc" id="L16">        this.webClient = webClientBuilder.baseUrl(&quot;http://mediscreen-patient:8081/patient&quot;).build();</span>
+<span class="fc" id="L17">    }</span>
+
+    /**
+     * Get a patient by id
+     * @param id patient id
+     * @return patient information
+     */
+    Mono&lt;PatientDto&gt; getPatientById(int id) {
+<span class="nc" id="L25">        return webClient.get()</span>
+<span class="nc" id="L26">                .uri(&quot;/{id}&quot;, id)</span>
+<span class="nc" id="L27">                .accept(MediaType.APPLICATION_JSON)</span>
+<span class="nc" id="L28">                .retrieve()</span>
+<span class="nc" id="L29">                .onStatus(HttpStatus::is4xxClientError, response -&gt; Mono.error(new IllegalArgumentException(&quot;ID NOT FOUND&quot;)))</span>
+<span class="nc" id="L30">                .onStatus(HttpStatus::is5xxServerError, response -&gt; Mono.error(new RuntimeException(&quot;External API server error&quot;)))</span>
+<span class="nc" id="L31">                .bodyToMono(PatientDto.class);</span>
+    }
+
+    /**
+     * Get patient list by family name
+     * @param family family name
+     * @return patient list
+     */
+    Flux&lt;PatientDto&gt; getPatientsByFamily(String family) {
+<span class="nc" id="L40">        return webClient.get()</span>
+<span class="nc" id="L41">                .uri(uriBuilder -&gt; uriBuilder.queryParam(&quot;family&quot;, family).build())</span>
+<span class="nc" id="L42">                .accept(MediaType.APPLICATION_JSON)</span>
+<span class="nc" id="L43">                .retrieve()</span>
+<span class="nc" id="L44">                .onStatus(HttpStatus::is4xxClientError, response -&gt; Mono.error(new IllegalArgumentException(&quot;FAMILY NAME NOT FOUND&quot;)))</span>
+<span class="nc" id="L45">                .onStatus(HttpStatus::is5xxServerError, response -&gt; Mono.error(new RuntimeException(&quot;External API server error&quot;)))</span>
+<span class="nc" id="L46">                .bodyToFlux(PatientDto.class);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
